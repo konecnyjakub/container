@@ -13,9 +13,45 @@ The best way to install Cache is via Composer. Just add konecnyjakub/container t
 Quick start
 -----------
 
-To be added
+```php
+<?php
+declare(strict_types=1);
+
+use Konecnyjakub\Container\SimpleContainer;
+use stdClass;
+
+$container = new SimpleContainer();
+$service = new stdClass();
+$service->var = "abc";
+$container->set("one", $service);
+$container->has("one"); // true
+var_dump($container->get("one") === $service); // true
+```
 
 Advanced usage
 --------------
 
-To be added
+This package provides a simple PSR-11 compliant container. It does not have any exciting features/options and frankly, there is little reason to use it a real application. Below are all the things that it can do.
+
+```php
+<?php
+declare(strict_types=1);
+
+use Konecnyjakub\Container\SimpleContainer;
+use stdClass;
+
+$container = new SimpleContainer();
+$container->isLocked(); // false
+$container->has("one"); // false
+$service = new stdClass();
+$service->var = "abc";
+$container->set("one", $service);
+$container->has("one"); // true
+var_dump($container->get("one") === $service); // true
+$container->delete("one");
+$container->has("one"); // false
+$container->lock();
+$container->isLocked(); // true
+$container->set("one", $service); // throws an exception
+$container->delete("one"); // throws an exception
+```
