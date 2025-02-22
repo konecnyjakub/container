@@ -30,11 +30,28 @@ final class SimpleContainerTest extends TestCase
         $this->assertThrowsException(function () use ($container) {
             $container->get("test");
         }, ServiceNotFoundException::class);
+        $this->assertNoException(function () use ($container) {
+            $container->delete("one");
+            $container->delete("two");
+            $container->delete("test");
+        });
 
         $container->set("one", $service1);
         $container->set("two", $service2);
         $this->assertSame($service1, $container->get("one"));
         $this->assertSame($service2, $container->get("two"));
+        $this->assertThrowsException(function () use ($container) {
+            $container->get("test");
+        }, ServiceNotFoundException::class);
+
+        $container->delete("two");
+        $container->set("one", $service1);
+        $this->assertFalse($container->has("two"));
+        $this->assertFalse($container->has("test"));
+        $this->assertSame($service1, $container->get("one"));
+        $this->assertThrowsException(function () use ($container) {
+            $container->get("two");
+        }, ServiceNotFoundException::class);
         $this->assertThrowsException(function () use ($container) {
             $container->get("test");
         }, ServiceNotFoundException::class);

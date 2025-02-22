@@ -27,4 +27,9 @@ final class SimpleContainer implements ContainerInterface
     {
         $this->services[$id] = $service;
     }
+
+    public function delete(string $id): void
+    {
+        unset($this->services[$id]);
+    }
 }
