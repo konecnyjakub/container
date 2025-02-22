@@ -10,6 +10,8 @@ final class SimpleContainer implements ContainerInterface
     /** @var array<string, mixed> */
     private array $services = [];
 
+    private bool $locked = false;
+
     public function get(string $id): mixed
     {
         if (!$this->has($id)) {
@@ -25,11 +27,27 @@ final class SimpleContainer implements ContainerInterface
 
     public function set(string $id, mixed $service): void
     {
+        if ($this->locked) {
+            throw new ContainerLockedException("Service cannot be added/changed in a locked container");
+        }
         $this->services[$id] = $service;
     }
 
     public function delete(string $id): void
     {
+        if ($this->locked) {
+            throw new ContainerLockedException("Services cannot be deleted from a locked container");
+        }
         unset($this->services[$id]);
+    }
+
+    public function isLocked(): bool
+    {
+        return $this->locked;
+    }
+
+    public function lock(): void
+    {
+        $this->locked = true;
     }
 }

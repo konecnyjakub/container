@@ -18,6 +18,7 @@ final class SimpleContainerTest extends TestCase
         $service2->var = "def";
         $container = new SimpleContainer();
 
+        $this->assertFalse($container->isLocked());
         $this->assertFalse($container->has("one"));
         $this->assertFalse($container->has("two"));
         $this->assertFalse($container->has("test"));
@@ -55,5 +56,14 @@ final class SimpleContainerTest extends TestCase
         $this->assertThrowsException(function () use ($container) {
             $container->get("test");
         }, ServiceNotFoundException::class);
+
+        $container->lock();
+        $this->assertTrue($container->isLocked());
+        $this->assertThrowsException(function () use ($container) {
+            $container->set("one", new stdClass());
+        }, ContainerLockedException::class, "Service cannot be added/changed in a locked container");
+        $this->assertThrowsException(function () use ($container) {
+            $container->delete("one");
+        }, ContainerLockedException::class, "Services cannot be deleted from a locked container");
     }
 }
