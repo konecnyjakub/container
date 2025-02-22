@@ -24,13 +24,13 @@ final class SimpleContainerTest extends TestCase
         $this->assertFalse($container->has("test"));
         $this->assertThrowsException(function () use ($container) {
             $container->get("one");
-        }, ServiceNotFoundException::class);
+        }, ServiceNotFoundException::class, "The container does not have service one");
         $this->assertThrowsException(function () use ($container) {
             $container->get("two");
-        }, ServiceNotFoundException::class);
+        }, ServiceNotFoundException::class, "The container does not have service two");
         $this->assertThrowsException(function () use ($container) {
             $container->get("test");
-        }, ServiceNotFoundException::class);
+        }, ServiceNotFoundException::class, "The container does not have service test");
         $this->assertNoException(function () use ($container) {
             $container->delete("one");
             $container->delete("two");
@@ -43,7 +43,7 @@ final class SimpleContainerTest extends TestCase
         $this->assertSame($service2, $container->get("two"));
         $this->assertThrowsException(function () use ($container) {
             $container->get("test");
-        }, ServiceNotFoundException::class);
+        }, ServiceNotFoundException::class, "The container does not have service test");
 
         $container->delete("two");
         $container->set("one", $service1);
@@ -52,10 +52,10 @@ final class SimpleContainerTest extends TestCase
         $this->assertSame($service1, $container->get("one"));
         $this->assertThrowsException(function () use ($container) {
             $container->get("two");
-        }, ServiceNotFoundException::class);
+        }, ServiceNotFoundException::class, "The container does not have service two");
         $this->assertThrowsException(function () use ($container) {
             $container->get("test");
-        }, ServiceNotFoundException::class);
+        }, ServiceNotFoundException::class, "The container does not have service test");
 
         $container->lock();
         $this->assertTrue($container->isLocked());

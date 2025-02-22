@@ -15,7 +15,7 @@ final class SimpleContainer implements ContainerInterface
     public function get(string $id): mixed
     {
         if (!$this->has($id)) {
-            throw new ServiceNotFoundException();
+            throw new ServiceNotFoundException("The container does not have service $id");
         }
         return $this->services[$id];
     }
