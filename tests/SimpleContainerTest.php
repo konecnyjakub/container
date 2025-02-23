@@ -61,9 +61,9 @@ final class SimpleContainerTest extends TestCase
         $this->assertTrue($container->isLocked());
         $this->assertThrowsException(function () use ($container) {
             $container->set("one", new stdClass());
-        }, ContainerLockedException::class, "Service cannot be added/changed in a locked container");
+        }, ContainerLockedException::class, "A service cannot be added to/changed in a locked container");
         $this->assertThrowsException(function () use ($container) {
             $container->delete("one");
-        }, ContainerLockedException::class, "Services cannot be deleted from a locked container");
+        }, ContainerLockedException::class, "A service cannot be deleted from a locked container");
     }
 }

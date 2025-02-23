@@ -28,7 +28,7 @@ final class SimpleContainer implements ContainerInterface
     public function set(string $id, mixed $service): void
     {
         if ($this->locked) {
-            throw new ContainerLockedException("Service cannot be added/changed in a locked container");
+            throw new ContainerLockedException("A service cannot be added to/changed in a locked container");
         }
         $this->services[$id] = $service;
     }
@@ -36,7 +36,7 @@ final class SimpleContainer implements ContainerInterface
     public function delete(string $id): void
     {
         if ($this->locked) {
-            throw new ContainerLockedException("Services cannot be deleted from a locked container");
+            throw new ContainerLockedException("A service cannot be deleted from a locked container");
         }
         unset($this->services[$id]);
     }
