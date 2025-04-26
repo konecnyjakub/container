@@ -31,7 +31,7 @@ var_dump($container->get("one") === $service); // true
 Advanced usage
 --------------
 
-This package provides a simple PSR-11 compliant container. It does not have any exciting features/options and frankly, there is little reason to use it a real application. Below are all the things that it can do.
+This package provides a simple PSR-11 compliant container. It does not have any exciting features/options and frankly, there is little reason to use it in a real application. Below are all the things that it can do.
 
 ```php
 <?php
