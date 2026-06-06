@@ -1,4 +1,4 @@
-Version 1.0.1+dev
+Version 1.0.2
 - added description (phpDoc) for exceptions
 
 Version 1.0.1
