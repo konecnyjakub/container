@@ -25,6 +25,9 @@ final class SimpleContainer implements ContainerInterface
         return array_key_exists($id, $this->services);
     }
 
+    /**
+     * @throws ContainerLockedException
+     */
     public function set(string $id, mixed $service): void
     {
         if ($this->locked) {
@@ -33,6 +36,9 @@ final class SimpleContainer implements ContainerInterface
         $this->services[$id] = $service;
     }
 
+    /**
+     * @throws ContainerLockedException
+     */
     public function delete(string $id): void
     {
         if ($this->locked) {
