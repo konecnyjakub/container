@@ -22,15 +22,27 @@ final class SimpleContainerTest extends TestCase
         $this->assertFalse($container->has("one"));
         $this->assertFalse($container->has("two"));
         $this->assertFalse($container->has("test"));
-        $this->assertThrowsException(static function () use ($container) {
-            $container->get("one");
-        }, ServiceNotFoundException::class, "The container does not have service one");
-        $this->assertThrowsException(static function () use ($container) {
-            $container->get("two");
-        }, ServiceNotFoundException::class, "The container does not have service two");
-        $this->assertThrowsException(static function () use ($container) {
-            $container->get("test");
-        }, ServiceNotFoundException::class, "The container does not have service test");
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->get("one");
+            },
+            ServiceNotFoundException::class,
+            "The container does not have service one"
+        );
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->get("two");
+            },
+            ServiceNotFoundException::class,
+            "The container does not have service two"
+        );
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->get("test");
+            },
+            ServiceNotFoundException::class,
+            "The container does not have service test"
+        );
         $this->assertNoException(static function () use ($container) {
             $container->delete("one");
             $container->delete("two");
@@ -41,29 +53,49 @@ final class SimpleContainerTest extends TestCase
         $container->set("two", $service2);
         $this->assertSame($service1, $container->get("one"));
         $this->assertSame($service2, $container->get("two"));
-        $this->assertThrowsException(static function () use ($container) {
-            $container->get("test");
-        }, ServiceNotFoundException::class, "The container does not have service test");
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->get("test");
+            },
+            ServiceNotFoundException::class,
+            "The container does not have service test"
+        );
 
         $container->delete("two");
         $container->set("one", $service1);
         $this->assertFalse($container->has("two"));
         $this->assertFalse($container->has("test"));
         $this->assertSame($service1, $container->get("one"));
-        $this->assertThrowsException(static function () use ($container) {
-            $container->get("two");
-        }, ServiceNotFoundException::class, "The container does not have service two");
-        $this->assertThrowsException(static function () use ($container) {
-            $container->get("test");
-        }, ServiceNotFoundException::class, "The container does not have service test");
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->get("two");
+            },
+            ServiceNotFoundException::class,
+            "The container does not have service two"
+        );
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->get("test");
+            },
+            ServiceNotFoundException::class,
+            "The container does not have service test"
+        );
 
         $container->lock();
         $this->assertTrue($container->isLocked());
-        $this->assertThrowsException(static function () use ($container) {
-            $container->set("one", new stdClass());
-        }, ContainerLockedException::class, "A service cannot be added to/changed in a locked container");
-        $this->assertThrowsException(static function () use ($container) {
-            $container->delete("one");
-        }, ContainerLockedException::class, "A service cannot be deleted from a locked container");
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->set("one", new stdClass());
+            },
+            ContainerLockedException::class,
+            "A service cannot be added to/changed in a locked container"
+        );
+        $this->assertThrowsException(
+            static function () use ($container) {
+                $container->delete("one");
+            },
+            ContainerLockedException::class,
+            "A service cannot be deleted from a locked container"
+        );
     }
 }
